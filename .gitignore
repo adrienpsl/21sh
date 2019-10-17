@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+cmake-build-debug/
+.idea/
+libs/
+ls_test
+*.o
+libft/*
+render/
