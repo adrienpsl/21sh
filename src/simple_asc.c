@@ -98,7 +98,7 @@ void calcule(t_array *array)
 	{
 		sign = ftarray__next(array);
 		nb = ftarray__next(array);
-		if (!sign || !nb)
+		if (!sign || !nb || nb->type != INTEGER)
 		{
 			ft_printf("check error");
 			return;
