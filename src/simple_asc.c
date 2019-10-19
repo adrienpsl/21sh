@@ -78,14 +78,6 @@ void lexer(char *str, t_array *array)
 	}
 }
 
-int current_is_sign(t_array *array)
-{
-	t_token *t;
-
-	t = ftarray__at(array, array->i);
-	return (t && t->type != INTEGER);
-}
-
 void calcule(t_array *array)
 {
 	t_token *nb;
@@ -94,9 +86,13 @@ void calcule(t_array *array)
 	int result = ((t_token *)ftarray__at(array, 0))->value;
 	array->i = 1;
 
-	while (current_is_sign(array))
+	while (NULL != (sign = ftarray__next(array)))
 	{
-		sign = ftarray__next(array);
+		if (sign->type == INTEGER)
+		{
+			ft_printf("syntax error");
+			return;
+		}
 		nb = ftarray__next(array);
 		if (!sign || !nb || nb->type != INTEGER)
 		{

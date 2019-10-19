@@ -64,3 +64,14 @@ a lexeme is a possible token value like :
 
 ### 2. What's is the name of the process 
 parser / parsing
+
+## Part 3
+### 1. What's is a syntax diagram ?
+It's a graphical diagram of the programing syntax rules.
+
+### 2. What's is a syntax analysis ?
+It's the parser, It will check if the rules of the language are respected
+
+
+
+
