@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdbool.h>
 
 typedef enum
 {
@@ -32,19 +33,6 @@ char *del_space(char *str)
 	while (*str == ' ')
 		str++;
 	return (str);
-}
-
-int print_token(void *p_el, void *param)
-{
-	t_token *t;
-
-	(void)param;
-	t = p_el;
-	if (t->type == INTEGER)
-		ft_printf("%d", t->value);
-	else
-		ft_printf(" %c ", t->value);
-	return (0);
 }
 
 void lexer(char *str, t_array *array)
@@ -78,33 +66,88 @@ void lexer(char *str, t_array *array)
 	}
 }
 
-void calcule(t_array *array)
+
+
+int print_token(void *p_el, void *param)
 {
-	t_token *nb;
-	t_token *sign;
+	t_token *t;
 
-	int result = ((t_token *)ftarray__at(array, 0))->value;
-	array->i = 1;
+	(void)param;
+	t = p_el;
+	if (t->type == INTEGER)
+		ft_printf("%d", t->value);
+	else
+		ft_printf(" %c ", t->value);
+	return (0);
+}
 
-	while (NULL != (sign = ftarray__next(array)))
+// if the token has the right type, I add 1 to the current, and ret true
+int eat(t_array *array, e_type type)
+{
+	t_token *t;
+
+	t = ftarray__current(array);
+	if (t->type == type)
 	{
-		if (sign->type == INTEGER)
-		{
-			ft_printf("syntax error");
-			return;
-		}
-		nb = ftarray__next(array);
-		if (!sign || !nb || nb->type != INTEGER)
-		{
-			ft_printf("check error");
-			return;
-		}
-		if (sign->type == MINUS)
-			result -= nb->value;
-		if (sign->type == PLUS)
-			result += nb->value;
+		array->i += 1;
+		return (t->value);
 	}
-	ft_printf("%d", result);
+	ft_printf("error syntax analyze");
+	exit(-42);
+}
+
+int factor(t_array *array)
+{
+	return (eat(array, INTEGER));
+}
+
+int term(t_array *a)
+{
+	t_token *t;
+	int nb;
+	int result;
+
+	result = factor(a);
+	while (NULL != (t = ftarray__current(a))
+		   && (t->type == MUL || t->type == DIV))
+	{
+		if (t->type == MUL)
+		{
+			eat(a, MUL);
+			nb = factor(a);
+			result = result * nb;
+		}
+		if (t->type == DIV)
+		{
+			eat(a, DIV);
+			nb = factor(a);
+			result = result / nb;
+		}
+	}
+	return (result);
+}
+
+int expr(t_array *a)
+{
+	t_token *t;
+	int result;
+
+	result = term(a);
+	while (NULL != (t = ftarray__current(a))
+		   && (t->type == PLUS || t->type == MINUS))
+	{
+		if (t->type == PLUS)
+		{
+			eat(a, PLUS);
+			result = result + term(a);
+		}
+		if (t->type == MINUS)
+		{
+			eat(a, MINUS);
+			result = result - term(a);
+		}
+	}
+	return (result);
 }
 
 int main(int ac, char **av)
@@ -115,6 +158,7 @@ int main(int ac, char **av)
 	lexer(av[1], array);
 	ftarray__func(array, print_token, NULL);
 	ft_printf("\n");
-	calcule(array);
+	array->i = 0;
+	ft_printf("%d\n", expr(array));
 	return (0);
 }
