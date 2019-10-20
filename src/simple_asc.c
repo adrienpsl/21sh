@@ -13,13 +13,17 @@
 #include <libft.h>
 #include <stdbool.h>
 
+int expr(t_array *a);
+
 typedef enum
 {
 	INTEGER,
 	PLUS,
 	MINUS,
 	DIV,
-	MUL
+	MUL,
+	P_OPEN,
+	P_CLOSE,
 } e_type;
 
 typedef struct s_token
@@ -39,8 +43,8 @@ void lexer(char *str, t_array *array)
 {
 	t_token t;
 	int pos;
-	static char *sign = "+-/*";
-	static e_type type[4] = { PLUS, MINUS, DIV, MUL };
+	static char *sign = "+-/*()";
+	static e_type type[10] = { PLUS, MINUS, DIV, MUL, P_OPEN, P_CLOSE };
 
 	while (*str)
 	{
@@ -50,11 +54,14 @@ void lexer(char *str, t_array *array)
 		{
 			t.type = INTEGER;
 			t.value = ft_atoi(str);
+			while (ft_isdigit(*str))
+				str += 1;
 		}
 		else if (-1 != (pos = ft_strchr_int(sign, *str)))
 		{
 			t.type = type[pos];
 			t.value = *str;
+			str += 1;
 		}
 		else
 		{
@@ -62,11 +69,8 @@ void lexer(char *str, t_array *array)
 			return;
 		}
 		ftarray__push(array, &t);
-		str += 1;
 	}
 }
-
-
 
 int print_token(void *p_el, void *param)
 {
@@ -75,7 +79,9 @@ int print_token(void *p_el, void *param)
 	(void)param;
 	t = p_el;
 	if (t->type == INTEGER)
-		ft_printf("%d", t->value);
+		ft_printf("-%d", t->value);
+	else if (t->type == P_OPEN || t->type == P_CLOSE)
+		ft_printf("%c", t->value);
 	else
 		ft_printf(" %c ", t->value);
 	return (0);
@@ -96,9 +102,23 @@ int eat(t_array *array, e_type type)
 	exit(-42);
 }
 
-int factor(t_array *array)
+int factor(t_array *a)
 {
-	return (eat(array, INTEGER));
+	t_token *t;
+	int result;
+
+	t = ftarray__current(a);
+	if (t->type == INTEGER)
+	{
+		return (eat(a, INTEGER));
+	}
+	else
+	{
+		eat(a, P_OPEN);
+		result = expr(a);
+		eat(a, P_CLOSE);
+		return (result);
+	}
 }
 
 int term(t_array *a)
