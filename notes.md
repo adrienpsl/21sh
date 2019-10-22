@@ -157,8 +157,49 @@ Because Pascal variable and reserved keyword are both identifiers,
 we will combine their handling into one method called _id.
 the method consumes all the alphanumeric, and if it's an 
 keyword, return the predefined token, if not, return a new ID token
-where the value is an the variable name (lexeme). 
+where the value is an the variable name (lexeme).
 
+## The new grammar : 
+program : PROGRAM variable SEMI block DOT
+
+block : declarations compound_statement
+
+declarations : VAR (variable declaration SEMI)+
+            | empty
+
+variable_declaration: ID (COMMA ID)* COLON type_spec
+
+type_spec : INTEGER | REAL
+
+compound_statement : BEGIN statement_list END
+
+statement_list : statement
+                | statement SEMI statement_list
+
+statement: compound_statement
+            | assignment_statement
+            | empty
+                                (:=) both
+assignment_statement : variable ASSIGN expr
+
+empty : --
+
+expr : term ((PLUS | MINUS) term) * 
+
+term : factor ((MUL | DIV) factor) *
+
+factor : PLUS factor
+        | MINUS factor
+        | INTEGER_CONST
+        | REAL_CONST
+        | LPAREN expr RPAREN
+        | variable
+
+variable : ID
+
+now we want to update the lexer, after the parser, after that the interpreter! youhou !
+I think the grammar rules start to enter in my head, that simple, 
+but use the parser a descente recusive, that seem to be hard !
 
 
 

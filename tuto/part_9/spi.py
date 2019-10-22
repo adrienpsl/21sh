@@ -16,7 +16,6 @@
     'BEGIN', 'END', 'SEMI', 'DOT', 'EOF'
 )
 
-
 class Token(object):
     def __init__(self, type, value):
         self.type = type
@@ -42,6 +41,7 @@ class Token(object):
 RESERVED_KEYWORDS = {
     'BEGIN': Token('BEGIN', 'BEGIN'),
     'END': Token('END', 'END'),
+    'DIV': Token(DIV, '/'),
 }
 
 
@@ -86,11 +86,12 @@ class Lexer(object):
     def _id(self):
         """Handle identifiers and reserved keywords"""
         result = ''
-        while self.current_char is not None and self.current_char.isalnum():
+        while self.current_char is not None and (self.current_char.isalnum()
+                                                 or self.current_char == '_'):
             result += self.current_char
             self.advance()
 
-        token = RESERVED_KEYWORDS.get(result, Token(ID, result))
+        token = RESERVED_KEYWORDS.get(result.upper(), Token(ID, result))
         return token
 
     def get_next_token(self):
@@ -132,9 +133,9 @@ class Lexer(object):
                 self.advance()
                 return Token(MUL, '*')
 
-            if self.current_char == '/':
-                self.advance()
-                return Token(DIV, '/')
+            # if self.current_char == '/':
+            #     self.advance()
+            #     return Token(DIV, '/')
 
             if self.current_char == '(':
                 self.advance()
