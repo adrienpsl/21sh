@@ -103,8 +103,61 @@ It's the parser, It will check if the rules of the language are respected
   in the parser, and also to allow for empty compound statements as in 'BEGIN END'.
 - the factor ruse is updated to handle variable.
 
+// here an pretty exemple of how handle some cool stuff :
 
+## the rules: 
+program            : compound_statement DOT
 
+compound_statement : BEGIN statement_list END
+
+statement_list     : statement
+                   | statement SEMI statement_list // best than with the *, cause 2 possibility, different.
+
+statement          : compound_statement
+                   | assigment_statement
+                   | empty
+
+assignment_statement: variable ASSIGN expr
+
+empty: --
+
+expr: term ((PLUS | MINUS) term)*
+
+term: factor ((MUL | DIV) factor)*
+
+factor: PLUS factor
+      | MINUS factor
+      | INTEGER
+      | LPAREN expr RPAREN
+      | variable
+
+variable : ID
+
+## The new parser:
+1. To support the pascal language, we need to change the lexer, to return new token :
+BEGIN / END : surround the compound_statement
+DOT : the .
+ASSIGN : 2 char :=
+SEMI: used to mark the end of a statement, inside a compound_statement
+ID: A token for a valid identifier, identifier start with alphabetical 
+followed by any number of alphanumerical char.
+
+2. we add an method to get the next char of the input, without increment pos,
+in order to find the token after the := or == =<
+the method name is peek.
+```python
+def peek(self):
+    peek_pos = self.pos + 1
+    if peek_pos > len(self.text) - 1:
+        return None
+    else:
+        return self.text[peek_pos]
+```
+Because Pascal variable and reserved keyword are both identifiers,
+we will combine their handling into one method called _id.
+the method consumes all the alphanumeric, and if it's an 
+keyword, return the predefined token, if not, return a new ID token
+where the value is an the variable name (lexeme). 
 
 
 
