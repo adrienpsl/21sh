@@ -72,6 +72,54 @@ It's a graphical diagram of the programing syntax rules.
 ### 2. What's is a syntax analysis ?
 It's the parser, It will check if the rules of the language are respected
 
+## part 9
+- part 9 is a start to real stuff man: we will write a pascal compiler ! OMG
+
+## The rules of the Pascal :
+- A pascal program consist of a compound statement that end with a dot.
+- A compound statement is a block marked with BEGIN and END that contains a list
+  (possibly empty) of statement, possibly other compound statement.
+  Every statement inside must terminate with a semicolon, except the last one.
+  ```pascal
+  “BEGIN END”
+  “BEGIN a := 5; x := 11 END”
+  “BEGIN a := 5; x := 11; END”
+  “BEGIN BEGIN a := 5 END; x := 11 END” 
+  ```
+- A statement list is a list of * statement inside a compound statement
+- A assignment statement is a variable followed by an Assign token : (: =)
+  followed by an expression.
+  ```pascal
+  a := 11
+  b := a + 9 - 5 * 2
+  ```
+- A variable is an identifier. We'll use the Id token for variables.
+  The value of the variable will be his name.
+  ```pascal
+  BEGIN a := 11; b := a + 9 - 5 END
+  ```
+- An empty statement represents a grammar rule with no further productions.
+  We use the empty_statement grammar rules to indicate the end of the statement_list
+  in the parser, and also to allow for empty compound statements as in 'BEGIN END'.
+- the factor ruse is updated to handle variable.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
