@@ -6,3 +6,4 @@ ls_test
 *.o
 libft/*
 render/
+venv
