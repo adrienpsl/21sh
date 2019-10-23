@@ -106,7 +106,13 @@ not that's is for delemited a token, after that I parse it !
     the token shall not be delimited by the end of the quoted field ??
     - car je peux avoir ls "toto" tata titi et ces command font partie d'un token, et ne doivent donc pas etre changer de place.  
 5. If the current caharcer is an unquoted '$' or  '`', the shell identify the start of any candidates for parameter expansion
-    I will recursivel
+   rewrite the rule 5 with the new shell, not now.
+   
+6.  if the current charactere is not quoted and can be used as the first char of a new
+    operator, the current token (if any) shall be delimited and the current token shall be used as begging of the next token. (><) ?
+7. if the current char is an unquoted <newline>, the cerrunt token shall be delimited.
+8. if the current character is an unquoted <blank>, any token containing the previous char
+ 
 
 
 
