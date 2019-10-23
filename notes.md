@@ -75,3 +75,7 @@ It's the parser, It will check if the rules of the language are respected
 
 
 
+https://linux.die.net/man/2/pipe
+https://stackoverflow.com/questions/50610781/implementing-pipe-and-redirection-together-in-c
+http://www.zeitoun.net/articles/communication-par-tuyau/start
+https://forum.ubuntu-fr.org/viewtopic.php?id=1952491
