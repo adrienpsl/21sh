@@ -10,3 +10,8 @@ https://ruslanspivak.com/lsbasi-part1/
 http://gallium.inria.fr/~maranget/X/compil/poly/poly003.html#sec4
 https://pubs.opengroup.org/onlinepubs/9699919799/
 
+
+https://linux.die.net/man/2/pipe
+https://stackoverflow.com/questions/50610781/implementing-pipe-and-redirection-together-in-c
+http://www.zeitoun.net/articles/communication-par-tuyau/start
+https://forum.ubuntu-fr.org/viewtopic.php?id=1952491
