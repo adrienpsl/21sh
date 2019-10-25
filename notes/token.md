@@ -72,6 +72,16 @@ not that's is for delemited a token, after that I parse it !
     mais : 
     - pas de substitution
     - je met tout les char dans le token, et je ne l'arrete pas a la fin du la string, 
-        il y a peu etre d'autre chose dedant !
-5. 
+        il y a peu etre d'autre chose dedant
+    - je dois cheque que les ' et autre ce ferment bien
+5. pour les $ $()... je dois check que tout est en regle, et ensuite faire mieux le token
+6. si pas de quote et que le CC peut etre utilise dans un token, je delimite le token d'avant
+7. si le CC est une newline, je delimit le current token
+8. si le CC est blank, je delimite et delete le current char
+9. si le current token est un mot, le CC vas dans ce char 
+10. si c'est # > je passe until la new line, mais elle n'est pas dans le comment
+11. le CC est utiliser pour demarer un nouveau mot.
+
+-> dans ma structure de parsing, une var pour handles les '"
+-> test 
 

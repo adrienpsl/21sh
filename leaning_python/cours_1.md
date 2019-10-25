@@ -6,7 +6,7 @@ variable like C, max length 79.
 ### Variables 
 - don't require declaration, init before use them
 - variable point in memory slot
-- the slot contain : the value, the type, a ref counter to know if it's ok to access it
+- the slot contain : the value, the type,       a ref counter to know if it's ok to access it
 it's the object which has the type, not the variable.
 
 # Python statement
