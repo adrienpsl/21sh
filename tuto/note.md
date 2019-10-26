@@ -1,40 +1,3 @@
-il faut voir le shell comme un language de programation.
-la syntax dois repondre a une grammaire
-la semantique specifie la signification d'un programme valide
-----
-Ce programme est-il valide ? (syntaxe)
-Si oui, que fait-il ? (sémantique)
-
-
-# Analyse lexical
-
-## Le lexer 
-je dois gererer un arbre qui represente ce que j'ai avec mes element,
-pour faire un truc compilable
-donc surtout annalyser ce que je recois dans mon shell, et
-ensuite lancer les executions.
-- les tokens exploitables sont : 
-';' '|' ; '<' '>' '<<' '>>' les descripeurs de file. 
-
-je commence a comprendre ce que je dois faire avec le lexer, et ensuite avec 
-le parser. 
-
-mais comment faire pour que tout se plug correctement ?
-
-
-les links utiliser :
-
-http://michel.billaud3.free.fr/blog/index.php/2013/01/20/72-programmation-la-technique-de-descente-recursive
-https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
-https://dev.to/oyagci/generating-a-parse-tree-from-a-shell-grammar-f1
-https://leptinerd.wordpress.com/2017/06/11/introduction-a-la-theorie-de-la-compilation-24-les-parsers/
-https://totodu.net/Compilation/Introduction
-
-https://ruslanspivak.com/lsbasi-part1/
-http://gallium.inria.fr/~maranget/X/compil/poly/poly003.html#sec4
-https://pubs.opengroup.org/onlinepubs/9699919799/
-
-
 # https://ruslanspivak.com/lsbasi-part1/
 ## Part 1
 
@@ -200,24 +163,3 @@ variable : ID
 now we want to update the lexer, after the parser, after that the interpreter! youhou !
 I think the grammar rules start to enter in my head, that simple, 
 but use the parser a descente recusive, that seem to be hard !
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-https://linux.die.net/man/2/pipe
-https://stackoverflow.com/questions/50610781/implementing-pipe-and-redirection-together-in-c
-http://www.zeitoun.net/articles/communication-par-tuyau/start
-https://forum.ubuntu-fr.org/viewtopic.php?id=1952491
