@@ -83,5 +83,10 @@ not that's is for delemited a token, after that I parse it !
 11. le CC est utiliser pour demarer un nouveau mot.
 
 -> dans ma structure de parsing, une var pour handles les '"
--> test 
+-> test pour les $ qui sont des bultins
+-> add les >& tout ca tout ca 
+-> recode les builtin pour qu'il soit des programme independant que je vais juste pipe
+-> faire leurs makefile + lib a chaque fois ?
+-> non il appelleront leurs lib a chaque fois
+-> voila voila :)
 
