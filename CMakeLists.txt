@@ -16,7 +16,8 @@ add_subdirectory(libft)
 #    Libary Init
 # ------------------------------------------------------------------------------
 file(GLOB_RECURSE sources_files src/*.c)
-add_library(${PROJECT_NAME}_lib ${sources_files})
+file(GLOB_RECURSE env_lib src/env_lib/*.c)
+add_library(${PROJECT_NAME}_lib ${sources_files} ${env_lib})
 target_include_directories(${PROJECT_NAME}_lib PUBLIC includes)
 target_link_libraries(${PROJECT_NAME}_lib libft)
 

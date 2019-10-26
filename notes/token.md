@@ -1,3 +1,16 @@
+the token ! 
+
+%token  DLESS  DGREAT  LESSAND  GREATAND  LESSGREAT  DLESSDASH
+/*      '<<'   '>>'    '<&'     '>&'      '<>'       '<<-'   */
+
+%token  CLOBBER     NEW_LINE like ;
+/*      '>|'          ; == \n                 */
+// separator op.
+
+// je ne comprend pas bien commen faire pour ne pas tokeniser la string
+au fur et a mesure que j'avance. 
+
+
 ## 2.3 Token Recognition
 
 - the shell read its input in term of unlimited length line.
