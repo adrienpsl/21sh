@@ -113,10 +113,29 @@ not that's is for delemited a token, after that I parse it !
 7. if the current char is an unquoted <newline>, the cerrunt token shall be delimited.
 8. if the current character is an unquoted <blank>, any token containing the previous char
  
+avant chaque command, le shell read son file env et le donne a la command, builtin ou pas,
+la diff c'est que les builtins add dans le file, mais pas le shell, et c'est je trouve plus simple non ?
+il sont livre avec le shell mais dans leur truc a eux, et il on la lib write in shell,
+qui as les fonctions pour load / add / delete dans le file qui contient tout les shell. 
+je vais faire un test avec pipe pour voir comment ca marche et ensuite je me lance danns le code.
 
 
+
+ok but how I comment je fais pour passer depuis cd a mon shell des data ? 
+// de toute facon, pour pouvoir pipe de mon bultin a mes elements, je vais 
+// devoir faire un pipe non ? donc, quoi que je fasse, il me faudra faire ce que je viens de marqer.
+// je dois mettre a jour env, mais je peux le faire dans un file, que mes builtin 
+// vont partager pour mettre a jour les element,. 
 
 >> > << < | and command. 
+
+%token  DLESS  DGREAT  LESSAND  GREATAND  LESSGREAT  DLESSDASH
+/*      '<<'   '>>'    '<&'     '>&'      '<>'       '<<-'   */
+
+
+%token  CLOBBER
+/*      '>|'   */
+
 
 // maybe I write that in python and use the same stuff than use in the article 
 I read to do the same ! 
