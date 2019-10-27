@@ -5,22 +5,15 @@ ls ; cat | ls ; ls "tot" "tata et" titi >> super
 WORD -  SEPAROTOR_OP -  WORD - 
 ls      ;               cat
 
+ 2>1
+ >
+
+
 
 ls ; ls | ls
 ls 
 
-my rules : 
-complete_command    : list separator
-                    | list
-
-list                : list separator pipe_sequence
-
-pipe_sequence       : command
-                    | pipe_sequence '|' linebreak  command
-
-command             : simple command
-                    | compound_command
-                    | compound_command redirect_list
+IO_NUMBER: if the string consist solely of digits and the delimiter is > or < the token that is return is IO_NUMBER
 
 %start  complete_command
 %%
@@ -35,7 +28,7 @@ pipe             :                    command
                  ;
 command          : cmd_prefix cmd_word cmd_suffix
                  | cmd_prefix cmd_word
-                 | cmd_prefi x
+                 | cmd_prefix
                  | cmd_name cmd_suffix
                  | cmd_name
                  ;
@@ -45,8 +38,6 @@ cmd_word         : WORD                   /* Apply rule 7b */
                  ;
 cmd_prefix       :            io_redirect
                  | cmd_prefix io_redirect
-                 |            ASSIGNMENT_WORD
-                 | cmd_prefix ASSIGNMENT_WORD
                  ;
 cmd_suffix       :            io_redirect
                  | cmd_suffix io_redirect

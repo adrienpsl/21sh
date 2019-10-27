@@ -37,7 +37,7 @@ class Token(object):
     def __repr__(self):
         return self.__str__()
 
-
+#  > and < are reserved keyword ?
 RESERVED_KEYWORDS = {
     'BEGIN': Token('BEGIN', 'BEGIN'),
     'END': Token('END', 'END'),
