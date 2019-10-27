@@ -35,7 +35,7 @@ pipe             :                    command
                  ;
 command          : cmd_prefix cmd_word cmd_suffix
                  | cmd_prefix cmd_word
-                 | cmd_prefix
+                 | cmd_prefi x
                  | cmd_name cmd_suffix
                  | cmd_name
                  ;
