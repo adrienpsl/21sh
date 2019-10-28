@@ -14,7 +14,13 @@ class Lexer(object):
         self.text_length = len(self.text) - 1
         # current pos in the command
         self.pos = 0
-        self.current = None
+        self.current_char = None
+        self.current_token
+
+    def is_current_token_operator(self):
+        # will look in the current str
+        # the current str has a bool who say if it's an operator or not
+        pass
 
     def error(self):
         raise Exception('Lexer bad char')
@@ -23,9 +29,9 @@ class Lexer(object):
         """ advance the pos ptr, and set the current char """
         self.pos += 1
         if self.pos == self.length:
-            self.current = None  # indicate the end of the input
+            self.current_char = None  # indicate the end of the input
         else:
-            self.current = self.text[self.pos]
+            self.current_char = self.text[self.pos]
 
     # implemente rule n=1 : return end at the end :)
     def next_char(self):
@@ -37,6 +43,12 @@ class Lexer(object):
 
     # test rule n=2, pas de quote : current_token == operator && current token +
     # current == op > add
+
     def skip_space(self):
-        while self.current == ' ':
+        while self.current_char == ' ':
             self.advance()
+
+    def is_op(self):
+        # sea
+        pass
+
