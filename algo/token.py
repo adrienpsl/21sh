@@ -6,10 +6,10 @@
 
 # the grammar key word
 #
-(COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
+( COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
  CMD_WORD, CMD_PREFIX, CMD_SUFFIX, REDIRECT_LIST,
  IO_REDIRECT, IO_FILE, FILENAME, HERE_END, NEWLINE_LIST,
- LINEBREAK, SEPARATOR_OP, SEPARATOR, SEQUENTIAL_SEP, EFO) = (
+ LINEBREAK, SEPARATOR_OP, SEPARATOR, SEQUENTIAL_SEP, EFO ) = (
     'COMPLETE_COMMAND', 'LIST', 'PIPE', 'CMD', 'CMD_NAME',
     'CMD_WORD', 'CMD_PREFIX', 'CMD_SUFFIX', 'REDIRECT_LIST',
     'IO_REDIRECT', 'IO_FILE', 'FILENAME', 'HERE_END', 'NEWLINE_LIST',
@@ -17,10 +17,22 @@
 
 # the tokon keyword
 (NEWLINE, WORD, IO_NUMBER, PIPE, LESS, GREAT, LESSAND, GREATAND, DGREAT,
- VARIABLE) = (
-    'NEWLINE', 'WORD', 'IO_NUMBER', 'PIPE', 'LESS', 'GREAT', 'LESSAND',
-    'GREATAND', 'DGREAT', 'VARIABLE'
+ VARIABLE, DLESS, DLESS) = (
+    '\n', 'WORD', 'IO_NUMBER', '|', '<', '>', '<&',
+    '>&', '>>', 'VARIABLE',  '<<', '<<-'
 )
+
+class Token(object):
+    def __init__(self, type):
+        self.type = type
+        self.value = value
+
+    def __str__(self):
+        "string representation of the class instance"
+    
+
+
+
 
 # here the parser : will delete the "" and ''
 # put the $ in variable,
@@ -29,7 +41,7 @@
 # yep, that "" will be a word and I will reaplace the stuff after the word will be
 # created
 
-#  \n 
+#  \n
 # DLESS, LESSGREAT, CLOBBER, SEMI, DLESS, DLESSDASH) = ()
 
 
@@ -42,3 +54,6 @@
 #  pour le moment, je ne retourn que des tokens, operator, and
 #  bon la j'ai compris comment faire pour que ce soit plus lisible !
 #  youhou.
+
+class toto
+    super
