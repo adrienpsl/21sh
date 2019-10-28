@@ -1,15 +1,7 @@
-# here the parser.
-
-# Token types :
-#
-# EFO is for the last token
-
-# the grammar key word
-#
-( COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
+(COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
  CMD_WORD, CMD_PREFIX, CMD_SUFFIX, REDIRECT_LIST,
  IO_REDIRECT, IO_FILE, FILENAME, HERE_END, NEWLINE_LIST,
- LINEBREAK, SEPARATOR_OP, SEPARATOR, SEQUENTIAL_SEP, EFO ) = (
+ LINEBREAK, SEPARATOR_OP, SEPARATOR, SEQUENTIAL_SEP, EFO) = (
     'COMPLETE_COMMAND', 'LIST', 'PIPE', 'CMD', 'CMD_NAME',
     'CMD_WORD', 'CMD_PREFIX', 'CMD_SUFFIX', 'REDIRECT_LIST',
     'IO_REDIRECT', 'IO_FILE', 'FILENAME', 'HERE_END', 'NEWLINE_LIST',
@@ -19,41 +11,26 @@
 (NEWLINE, WORD, IO_NUMBER, PIPE, LESS, GREAT, LESSAND, GREATAND, DGREAT,
  VARIABLE, DLESS, DLESS) = (
     '\n', 'WORD', 'IO_NUMBER', '|', '<', '>', '<&',
-    '>&', '>>', 'VARIABLE',  '<<', '<<-'
+    '>&', '>>', 'VARIABLE', '<<', '<<-'
 )
 
+
 class Token(object):
-    def __init__(self, type):
+    def __init__(self, type, value):
         self.type = type
         self.value = value
 
+    # this method is call when print() or str() is invoked on an object,
+    # the method must return a string object.
+    # 
     def __str__(self):
-        "string representation of the class instance"
-    
+        """string representation of the class instance"""
+        return 'Token ({type}, {value})'.format(
+            type=self.type,
+            value=repr(self.value)
+        )
 
-
-
-
-# here the parser : will delete the "" and ''
-# put the $ in variable,
-# cut the other command in stuff,
-# but the " $titi " super ... it's just a word, after that word, I will
-# yep, that "" will be a word and I will reaplace the stuff after the word will be
-# created
-
-#  \n
-# DLESS, LESSGREAT, CLOBBER, SEMI, DLESS, DLESSDASH) = ()
-
-
-# ici je ne comprends pas comment faire pour avoir ce truc bonien impel
-# lementer, 1 je separe les tokens en ?
-
-#  the func that will go on the line
-#  the func that will create the token
-#  the function that will
-#  pour le moment, je ne retourn que des tokens, operator, and
-#  bon la j'ai compris comment faire pour que ce soit plus lisible !
-#  youhou.
-
-class toto
-    super
+    # here I return str if repr is call, as repr must return str, that makes
+    # sens
+    def __repr__(self):
+        return self.__str__()
