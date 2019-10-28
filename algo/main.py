@@ -1,8 +1,7 @@
-from lexer import *
+from algo.lexer import Lexer
 
 
 def main():
-    import sys
     text = "super test"
 
     lexer = Lexer(text)

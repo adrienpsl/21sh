@@ -6,7 +6,7 @@ the token !
 %token  CLOBBER     NEW_LINE like ;
 /*      '>|'          ; == \n                 */
 // separator op.
-
+je
 // je ne comprend pas bien commen faire pour ne pas tokeniser la string
 au fur et a mesure que j'avance. 
 
@@ -79,8 +79,11 @@ not that's is for delemited a token, after that I parse it !
     si rien -> creation token EOF
 2. Si pas de quote, si Ct == operator && Ct + Cc == operator
     j'ajoute le char a mon token
+    
 3. Si Ct == operator && Ct + Cc != operator
     le Ct est delimité
+    
+    
 4. If the Cc est un \ " ', et n'est pas quoted, je dois set l'option, is quoted,
     mais : 
     - pas de substitution

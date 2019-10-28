@@ -1,5 +1,4 @@
-# import all, the . is important.
-from token import *
+from algo.token import *
 
 RESERVED_WORD = {
     'BEGIN': Token(WORD, 'toto')
@@ -15,7 +14,8 @@ class Lexer(object):
         # current pos in the command
         self.pos = 0
         self.current_char = None
-        self.current_token
+        self.current_token = None
+        self.current_token_type = 0
 
     def is_current_token_operator(self):
         # will look in the current str
@@ -48,7 +48,10 @@ class Lexer(object):
         while self.current_char == ' ':
             self.advance()
 
+    # return if the current token is an op
     def is_op(self):
-        # sea
-        pass
+        return self.current_token and self.current_token_type == OPERATOR
+
+
+
 

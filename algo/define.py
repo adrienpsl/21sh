@@ -1,0 +1,23 @@
+from algo.token import Token
+
+(COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
+ CMD_WORD, CMD_PREFIX, CMD_SUFFIX, REDIRECT_LIST,
+ IO_REDIRECT, IO_FILE, FILENAME, HERE_END, NEWLINE_LIST,
+ LINEBREAK, SEPARATOR_OP, SEPARATOR, SEQUENTIAL_SEP, EFO) = (
+    'COMPLETE_COMMAND', 'LIST', 'PIPE', 'CMD', 'CMD_NAME',
+    'CMD_WORD', 'CMD_PREFIX', 'CMD_SUFFIX', 'REDIRECT_LIST',
+    'IO_REDIRECT', 'IO_FILE', 'FILENAME', 'HERE_END', 'NEWLINE_LIST',
+    'LINEBREAK', 'SEPARATOR_OP', 'SEPARATOR', 'SEQUENTIAL_SEP', 'EFO')
+
+# the tokon keyword
+(NEWLINE, WORD, IO_NUMBER, PIPE, LESS, GREAT, LESSAND, GREATAND, DGREAT,
+ VARIABLE, DLESS, DLESSDASH, SEMI) = (
+    '\n', 'WORD', 'IO_NUMBER', '|', '<', '>', '<&',
+    '>&', '>>', 'VARIABLE', '<<', '<<-', ';'
+)
+
+ALL_OPERATOR = (
+    Token(NEWLINE, '\n'), Token(PIPE, '|'), Token(LESS, '<'),
+    Token(GREAT, '>'), Token(LESSAND, '<&'), Token(GREATAND, '>&'),
+    Token(DGREAT, '>>'), Token(LESSAND, '<<'), Token(DLESSDASH, '<<-'),
+    Token(SEMI, ';'))
