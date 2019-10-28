@@ -1,8 +1,5 @@
 from algo.token import *
-
-RESERVED_WORD = {
-    'BEGIN': Token(WORD, 'toto')
-}
+from algo.define import *
 
 
 class Lexer(object):
@@ -14,12 +11,27 @@ class Lexer(object):
         # current pos in the command
         self.pos = 0
         self.current_char = None
-        self.current_token = None
+        self.current_token = ""
         self.current_token_type = 0
 
-    def is_current_token_operator(self):
-        # will look in the current str
-        # the current str has a bool who say if it's an operator or not
+    # // TODO : how cmp str in python ?
+    def is_current_token_operator(self, token: Token):
+        tmp_token = self.current_token + self.current_char
+        return tmp_token == token.value
+
+    # return if the current token is an op
+    # loop on the token array, and return true
+    # if the current_str + current_char == existing token
+    def is_op(self):
+        for element in ALL_OPERATOR:
+            if self.is_current_token_operator(element):
+                return element
+        else:
+            return None
+
+    # that will apply the rules 2 and 3 (works if no quoting) :
+    # si
+    def add_to_operator_or_delimit(self):
         pass
 
     def error(self):
@@ -47,11 +59,3 @@ class Lexer(object):
     def skip_space(self):
         while self.current_char == ' ':
             self.advance()
-
-    # return if the current token is an op
-    def is_op(self):
-        return self.current_token and self.current_token_type == OPERATOR
-
-
-
-
