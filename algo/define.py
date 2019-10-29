@@ -10,8 +10,7 @@
 # the tokon keyword
 (NEWLINE, WORD, IO_NUMBER, PIPE, LESS, GREAT, LESSAND, GREATAND, DGREAT,
  VARIABLE, DLESS, DLESSDASH, SEMI) = (
-    '\n', 'WORD', 'IO_NUMBER', '|', '<', '>', '<&',
-    '>&', '>>', 'VARIABLE', '<<', '<<-', ';'
+    'NEWLINE', 'WORD', 'IO_NUMBER', 'PIPE', 'LESS', 'GREAT', 'LESSAND', 'GREATAND', 'DGREAT',
+'VARIABLE', 'DLESS', 'DLESSDASH', 'SEMI'
 )
-
 
