@@ -1,7 +1,7 @@
 from algo.lexer import *
 
 def main():
-    text = "toto tata too       ;       222 "
+    text = ";       222 "
 
     # print(not toto[0:])
     lexer = Lexer2(text)

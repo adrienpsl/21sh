@@ -29,8 +29,6 @@ class Current(object):
         self.current_token_type = 0
 
     # cc == current_char current_string
-    def is_cc_and_ct_operator(self):
-        return OPERATORS.get(self.current_string + self.current_char, None)
 
     def is_cc_operator(self):
         return OPERATORS.get(self.current_char)
@@ -56,6 +54,12 @@ class Lexer2(object):
     @staticmethod
     def fresh_token():
         return MyToken(NEW, "")
+
+    def is_char_operator(self, current_char):
+        return OPERATORS.get(current_char, None)
+
+    def is_char_plus_token_value_is_operator(self):
+        return OPERATORS.get(self.token.value + self.char, None)
 
     def add_token(self):
         if self.token.type != NEW:
@@ -86,13 +90,28 @@ class Lexer2(object):
             self.token.type = WORD
             self.token.value = self.char
 
+    def add_operator(self):
+        if self.token.type != OPERATOR:
+            self.add_token()
+        if self.is_char_operator(self.token.value) and \
+                self.is_char_plus_token_value_is_operator():
+            self.token.value += self.char
+        else:
+            self.add_token()
+            self.token.type = OPERATOR
+            self.token.value = self.char
+
     def get_next_token(self):
         while self.advance() and self.char is not None:
+            if self.is_char_operator(self.char):
+                self.add_operator()
+                continue
             if self.char == ' ':
                 self.handle_blank()
                 continue
             if self.add_to_word():
                 continue
+
         if self.token != NEW:
             self.add_token()
         self.all_tokens.append(MyToken(EFO, "toto"))
