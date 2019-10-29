@@ -1,4 +1,4 @@
-from algo.token import Token
+from token import Token
 
 (COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
  CMD_WORD, CMD_PREFIX, CMD_SUFFIX, REDIRECT_LIST,

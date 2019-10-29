@@ -1,5 +1,8 @@
-from algo.token import *
-from algo.define import *
+from token import *
+from define import *
+
+OPERATOR = 0
+TOKEN = 1
 
 
 class Lexer(object):
@@ -14,25 +17,43 @@ class Lexer(object):
         self.current_token = ""
         self.current_token_type = 0
 
-    # // TODO : how cmp str in python ?
     def is_current_token_operator(self, token: Token):
         tmp_token = self.current_token + self.current_char
-        return tmp_token == token.value
+        return 0 == cmp(tmp_token, token.value)
 
     # return if the current token is an op
     # loop on the token array, and return true
     # if the current_str + current_char == existing token
-    def is_op(self):
-        for element in ALL_OPERATOR:
-            if self.is_current_token_operator(element):
-                return element
+    # return the index of the first matched operator.
+    def find_operator_token_index(self) -> int:
+        i: int = 0
+        while i < len(ALL_OPERATOR):
+            if self.is_current_token_operator(ALL_OPERATOR[i]):
+                return i
         else:
-            return None
+            return -1
 
-    # that will apply the rules 2 and 3 (works if no quoting) :
-    # si
+    # that will apply the rules 2 and 3 (if no quoting) :
+    # if current_token + current_char == Operator: add and return 1
+    # I can, the caller will call it only if the current element is already a token
     def add_to_operator_or_delimit(self):
-        pass
+        token = self.find_operator_token_index()
+        if token is not -1:
+            self.current_token += self.current_char
+            return 1
+        else:
+            self.create_token()
+            return 0
+
+    def create_token(self):
+        if self.current_token_type == OPERATOR:
+            token = self.find_operator_token_index()
+            # add it the the token array
+        elif self.current_token_type == WORD:
+            pass
+        elif self.current_token_type == IO_token:
+            # convert to int and pass
+            pass
 
     def error(self):
         raise Exception('Lexer bad char')
