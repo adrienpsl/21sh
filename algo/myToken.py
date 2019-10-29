@@ -1,5 +1,5 @@
 
-class Token(object):
+class MyToken(object):
     def __init__(self, type, value):
         self.type = type
         self.value = value

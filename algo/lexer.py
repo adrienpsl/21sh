@@ -1,8 +1,17 @@
-from token import *
-from define import *
+from filecmp import cmp
+from algo.define import *
+from algo.myToken import MyToken
+
+ALL_OPERATOR = (
+    MyToken(NEWLINE, '\n'), MyToken(PIPE, '|'), MyToken(LESS, '<'),
+    MyToken(GREAT, '>'), MyToken(LESSAND, '<&'), MyToken(GREATAND, '>&'),
+    MyToken(DGREAT, '>>'), MyToken(LESSAND, '<<'), MyToken(DLESSDASH, '<<-'),
+    MyToken(SEMI, ';'))
 
 OPERATOR = 0
-TOKEN = 1
+MY_TOKEN = 1
+WORD = 2
+IO_TOKEN = 3
 
 
 class Lexer(object):
@@ -18,7 +27,7 @@ class Lexer(object):
         self.current_token_type = 0
         self.all_token = []
 
-    def is_current_token_operator(self, token: Token):
+    def is_current_token_operator(self, token: MyToken):
         tmp_token = self.current_token + self.current_char
         return 0 == cmp(tmp_token, token.value)
 
@@ -34,25 +43,31 @@ class Lexer(object):
         else:
             return -1
 
+    def add_current_char(self, token_type):
+        self.current_token += self.current_char
+        self.current_token_type = token_type
+
     # that will apply the rules 2 and 3 (if no quoting) :
     # if current_token + current_char == Operator: add and return 1
     # I can, the caller will call it only if the current element
     # is already a token
-    def add_to_operator_or_delimit(self):
+    def current_is_token(self):
         token = self.find_operator_token_index()
         if token is not -1:
-            if self.current_token_type == OPERATOR:
-                self.current_token += self.current_char
-                return 1
-            if self.current_token_type == WORD:
+            if self.current_token_type != OPERATOR:
                 self.create_token()
-                self.current_token += self.current_char
-                return 0
-        else:
-            self.create_token()
-            return 0
-        # if their is a word and the current element is a token ?
+            self.add_current_char(OPERATOR)
+            return 1
+        return 0
 
+    def handle_word(self):
+        if self.current_token_type != WORD:
+            self.create_token()
+        self.add_current_char(WORD)
+
+    def handle_space(self):
+        if self.current_char == ' ':
+            self.create_token()
 
     def handle_quote(self):
         # if quote, save the current quote,
@@ -61,16 +76,15 @@ class Lexer(object):
         # save create a word
         pass
 
-
     def create_token(self):
         if self.current_token_type == OPERATOR:
             token_index = self.find_operator_token_index()
             self.all_token.append(ALL_OPERATOR[token_index])
             # add it the the token array
         elif self.current_token_type == WORD:
-            token = TOKEN(WORD, self.current_token)
+            token = MyToken(WORD, self.current_token)
             self.all_token.append(token)
-        elif self.current_token_type == IO_token:
+        elif self.current_token_type == IO_TOKEN:
             # convert to int and pass
             pass
         self.current_token = ""
@@ -101,3 +115,15 @@ class Lexer(object):
     def skip_space(self):
         while self.current_char == ' ':
             self.advance()
+
+    def run(self):
+        while self.current_char is not None:
+            self.advance()
+            if self.current_char is None:
+                break
+            if self.current_is_token():
+                continue
+            self.handle_word()
+            self.handle_space()
+        for element in self.all_token:
+            print(element)

@@ -1,5 +1,3 @@
-from token import Token
-
 (COMPLETE_COMMAND, LIST, PIPE, CMD, CMD_NAME,
  CMD_WORD, CMD_PREFIX, CMD_SUFFIX, REDIRECT_LIST,
  IO_REDIRECT, IO_FILE, FILENAME, HERE_END, NEWLINE_LIST,
@@ -16,8 +14,4 @@ from token import Token
     '>&', '>>', 'VARIABLE', '<<', '<<-', ';'
 )
 
-ALL_OPERATOR = (
-    Token(NEWLINE, '\n'), Token(PIPE, '|'), Token(LESS, '<'),
-    Token(GREAT, '>'), Token(LESSAND, '<&'), Token(GREATAND, '>&'),
-    Token(DGREAT, '>>'), Token(LESSAND, '<<'), Token(DLESSDASH, '<<-'),
-    Token(SEMI, ';'))
+
