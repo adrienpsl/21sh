@@ -56,7 +56,9 @@ class Lexer2(object):
     def next_char(self):
         return self.text[0] if self.text else None
 
-    def handle_blank(self):
+    # delimit the token if current char == ' '
+    # skip all next ' ' in the string.
+    def rule_8(self):
         self.add_token()
 
     def add_to_word(self):
@@ -69,18 +71,46 @@ class Lexer2(object):
             self.token.value = self.char
 
     # if token == Operator && token.value + char == new token
+    # that will also handle the \n
     def rule_2(self):
-        if self.token.type == OPERATOR and self.is_operator(self.token.value + self.char):
+        if self.token.type == OPERATOR and self.is_operator(
+                self.token.value + self.char):
             self.token.value += self.char
             return 1
         return 0
 
     # create the operator token
+    # that will also handle the \n
     def rule_3(self):
         if self.is_operator(self.char):
             self.add_token()
             self.token.type = OPERATOR
             self.token.value += self.char
+            return 1
+        return 0
+
+    def add_the_quote(self):
+        self.advance()
+        self.add_to_word()
+
+    def handle_backslash(self):
+        if self.char == "\\" and self.quote:
+            if self.quote == '"' and self.next_char() == '"':
+                self.add_the_quote()
+                return 1
+            if self.quote == "'" and self.next_char() == "'":
+                self.add_the_quote()
+                return 1
+        return 0
+
+    def rule_4(self):
+        if self.char == "\"" or self.char == "'":
+            self.quote = self.char
+            self.advance()
+            while self.char != self.quote:
+                self.handle_backslash()
+                self.add_to_word()
+                self.advance()
             return 1
         return 0
 
@@ -90,8 +120,10 @@ class Lexer2(object):
                 continue
             if self.rule_3():
                 continue
+            if self.rule_4():
+                continue
             if self.char == ' ':
-                self.handle_blank()
+                self.rule_8()
                 continue
             if self.add_to_word():
                 continue
@@ -99,107 +131,3 @@ class Lexer2(object):
         if self.token.type != NEW:
             self.add_token()
         self.all_tokens.append(MyToken(EFO, "toto"))
-
-
-class Lexer(object):
-    def __init__(self, text):
-        self.text = text
-        self.text_length = len(self.text) - 1
-        self.pos = 0
-        self.all_token = [],
-        self.token = MyToken("", None)
-        self.current_char = ""
-
-    # that will apply the rules 2 and 3 (if no quoting) :
-    # if current_token + current_char == Operator: add and return 1
-    # I can, the caller will call it only if the current element
-    # is already a token
-    def current_is_token(self, ):
-        token = self.find_operator_token_index()
-        if token is not -1:
-            if self.current_token_type != OPERATOR:
-                self.create_token()
-            self.add_current_char(OPERATOR)
-            return 1
-        return 0
-
-    def handle_word(self):
-        if self.current_token_type != WORD:
-            self.create_token()
-        self.add_current_char(WORD)
-
-    def handle_space(self):
-        if self.current_char == ' ':
-            self.create_token()
-            self.skip_space()
-
-    def handle_quote(self):
-        # if quote, save the current quote,
-        # loop on the element until I get the next quote
-        # the delete the quote at each limit
-        # save create a word
-        pass
-
-    def create_token(self):
-        if self.current_token_type == OPERATOR:
-            token_index = self.find_operator_token_index()
-            self.all_token.append(OPERATORS[token_index])
-            # add it the the token array
-        elif self.current_token_type == WORD:
-            token = MyToken(WORD, self.current_token)
-            self.all_token.append(token)
-        elif self.current_token_type == IO_TOKEN:
-            # convert to int and pass
-            pass
-        elif self.current_token_type == EFO:
-            self.all_token.append(MyToken(EFO, 'stop'))
-        # I reset the value
-        self.current_token = ""
-        self.current_token_type = None
-
-    def error(self):
-        raise Exception('Lexer bad char')
-
-    def advance(self):
-        """ advance the pos ptr, and set the current char """
-        if self.pos > self.text_length:
-            self.current_char = None  # indicate the end of the input
-        else:
-            self.current_char = self.text[self.pos]
-        self.pos += 1
-
-    # implemente rule n=1 : return end at the end :)
-    def next_char(self):
-        next_pos = self.pos + 1
-        if next_pos >= self.text_length:
-            return None
-        else:
-            return self.text[next_pos]
-
-    # test rule n=2, pas de quote : current_token == operator && current token +
-    # current == op > add
-    # imlement <<- and blank.
-
-    def skip_space(self):
-        while self.current_char == ' ':
-            self.advance()
-
-    def loop_on_way(self):
-        if self.current_is_token():
-            return True
-        if self.handle_space():
-            return True
-        if self.handle_word():
-            return True
-        return False
-
-    def run(self):
-        # while self.current_char is not None:
-        #     self.advance()
-        #     if self.current_char is None:
-        #         break
-        #     self.loop_on_way()
-        # self.create_token()
-        # for element in self.all_token:
-        #     print(element)
-        pass

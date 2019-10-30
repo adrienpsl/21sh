@@ -1,8 +1,10 @@
 from algo.lexer import *
 
 def main():
-    text = ";;;;toto et >>;  2&>1     222 "
-    text = ">& 1 >><<<><}{2ooe"
+    text = ";;;;toto et >>; \\\" 2&>1     222 "
+    text = ">& 1 >><<<><}{2ooe \\\" 'super tata\"' "
+    text = "\" \\\"toto \""
+
 
     # print(not][ toto[0:])
     lexer = Lexer2(text)
