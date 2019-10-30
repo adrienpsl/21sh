@@ -61,7 +61,7 @@ class Lexer2(object):
     def rule_8(self):
         self.add_token()
 
-    def add_to_word(self):
+    def rule_11(self):
         if self.token.type != WORD:
             self.add_token()
         if self.token.type == WORD:
@@ -91,7 +91,7 @@ class Lexer2(object):
 
     def add_the_quote(self):
         self.advance()
-        self.add_to_word()
+        self.rule_11()
 
     def handle_backslash(self):
         if self.char == "\\" and self.quote:
@@ -109,7 +109,7 @@ class Lexer2(object):
             self.advance()
             while self.char != self.quote:
                 self.handle_backslash()
-                self.add_to_word()
+                self.rule_11()
                 self.advance()
             return 1
         return 0
@@ -125,7 +125,7 @@ class Lexer2(object):
             if self.char == ' ':
                 self.rule_8()
                 continue
-            if self.add_to_word():
+            if self.rule_11():
                 continue
 
         if self.token.type != NEW:
