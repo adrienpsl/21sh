@@ -41,6 +41,8 @@ class Lexer2(object):
 
     def add_token(self):
         if self.token.type != NEW:
+            if self.token.type == OPERATOR:
+                self.token.type = OPERATORS.get(self.token.value).type
             self.all_tokens.append(self.token)
             self.token = self.fresh_token()
 
@@ -64,7 +66,7 @@ class Lexer2(object):
     def rule_11(self):
         if self.token.type != WORD:
             self.add_token()
-        if self.token.type == WORD:
+        if self.token.type == WORD and self.char:
             self.token.value += self.char
         else:
             self.token.type = WORD
