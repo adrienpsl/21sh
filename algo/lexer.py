@@ -8,6 +8,7 @@ OPERATORS = {
     '>': MyToken(GREAT, '>'),
     '<&': MyToken(LESSAND, '<&'),
     '>&': MyToken(GREATAND, '>&'),
+    '<>': MyToken(LESSGREAT, '<>'),
     '>>': MyToken(DGREAT, '>>'),
     '<<': MyToken(LESSAND, '<<'),
     '<<-': MyToken(DLESSDASH, '<<-'),
@@ -21,28 +22,6 @@ IO_TOKEN = "IO_TOKEN"
 NEW = "NEW"
 
 
-# that class containt the current text in the
-class Current(object):
-    def __init__(self):
-        self.current_char = ""
-        self.current_string = ""
-        self.current_token_type = 0
-
-    # cc == current_char current_string
-
-    def is_cc_operator(self):
-        return OPERATORS.get(self.current_char)
-
-    def set_current_char(self, token_type):
-        if self.current_char is not None:
-            self.current_token += self.current_char
-            self.current_token_type = token_type
-            return 0
-        else:
-            self.current_token_type = EFO
-            return 1
-
-
 class Lexer2(object):
     def __init__(self, text):
         self.text = text
@@ -50,16 +29,15 @@ class Lexer2(object):
         self.char = text[0]
         self.token = self.fresh_token()
         self.all_tokens = []
+        self.quote = None
 
     @staticmethod
     def fresh_token():
         return MyToken(NEW, "")
 
-    def is_char_operator(self, current_char):
+    @staticmethod
+    def is_operator(current_char):
         return OPERATORS.get(current_char, None)
-
-    def is_char_plus_token_value_is_operator(self):
-        return OPERATORS.get(self.token.value + self.char, None)
 
     def add_token(self):
         if self.token.type != NEW:
@@ -90,21 +68,27 @@ class Lexer2(object):
             self.token.type = WORD
             self.token.value = self.char
 
-    def add_operator(self):
-        if self.token.type != OPERATOR:
-            self.add_token()
-        if self.is_char_operator(self.token.value) and \
-                self.is_char_plus_token_value_is_operator():
+    # if token == Operator && token.value + char == new token
+    def rule_2(self):
+        if self.token.type == OPERATOR and self.is_operator(self.token.value + self.char):
             self.token.value += self.char
-        else:
+            return 1
+        return 0
+
+    # create the operator token
+    def rule_3(self):
+        if self.is_operator(self.char):
             self.add_token()
             self.token.type = OPERATOR
-            self.token.value = self.char
+            self.token.value += self.char
+            return 1
+        return 0
 
     def get_next_token(self):
         while self.advance() and self.char is not None:
-            if self.is_char_operator(self.char):
-                self.add_operator()
+            if self.rule_2():
+                continue
+            if self.rule_3():
                 continue
             if self.char == ' ':
                 self.handle_blank()
@@ -112,7 +96,7 @@ class Lexer2(object):
             if self.add_to_word():
                 continue
 
-        if self.token != NEW:
+        if self.token.type != NEW:
             self.add_token()
         self.all_tokens.append(MyToken(EFO, "toto"))
 

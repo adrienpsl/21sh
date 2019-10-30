@@ -1,9 +1,10 @@
 from algo.lexer import *
 
 def main():
-    text = ";;;;toto et >>;       222 "
+    text = ";;;;toto et >>;  2&>1     222 "
+    text = ">& 1 >><<<><}{2ooe"
 
-    # print(not toto[0:])
+    # print(not][ toto[0:])
     lexer = Lexer2(text)
     lexer.get_next_token()
     for el in lexer.all_tokens:
