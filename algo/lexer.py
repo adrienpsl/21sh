@@ -75,8 +75,9 @@ class Lexer2(object):
     # if token == Operator && token.value + char == new token
     # that will also handle the \n
     def rule_2(self):
-        if self.token.type == OPERATOR and self.is_operator(
-                self.token.value + self.char):
+        if self.quote is None \
+                and self.token.type == OPERATOR \
+                and self.is_operator(self.token.value + self.char):
             self.token.value += self.char
             return 1
         return 0
@@ -84,19 +85,16 @@ class Lexer2(object):
     # create the operator token
     # that will also handle the \n
     def rule_3(self):
-        if self.is_operator(self.char):
+        if self.is_operator(self.char) and self.quote is None:
             self.add_token()
             self.token.type = OPERATOR
             self.token.value += self.char
             return 1
         return 0
 
-    def add_the_quote(self):
-        self.advance()
-        self.rule_11()
 
-    def handle_backslash(self):
-        if self.char == "\\" and self.quote:
+    def rule_backslash(self):
+        if self.quote is not None and self.char == "\\":
             if self.quote == '"' and self.next_char() == '"':
                 self.add_the_quote()
                 return 1
@@ -105,15 +103,15 @@ class Lexer2(object):
                 return 1
         return 0
 
+    # set the quote and unset the quote mode
     def rule_4(self):
-        if self.char == "\"" or self.char == "'":
+        if self.char == "\"" or self.char == '\'':
             self.quote = self.char
-            self.advance()
-            while self.char != self.quote:
-                self.handle_backslash()
-                self.rule_11()
-                self.advance()
             return 1
+        if self.char == self.quote:
+            self.quote = None
+            return 1
+        self.rule_backslash()
         return 0
 
     def get_next_token(self):

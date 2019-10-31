@@ -4,6 +4,7 @@ def main():
     text = ";;;;toto et >>; \\\" 2&>1     222 "
     text = ">& 1 >><<<><}{2ooe \\\" 'super tata' "
     #text = "\" \\\"toto \""
+    text = "'super tata' "
 
 
     # print(not][ toto[0:])
