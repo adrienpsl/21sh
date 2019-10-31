@@ -22,7 +22,7 @@ IO_TOKEN = "IO_TOKEN"
 NEW = "NEW"
 
 
-class Lexer2(object):
+class Lexer(object):
     def __init__(self, text):
         self.text = text
         self.position = 0
@@ -105,6 +105,8 @@ class Lexer2(object):
             if self.quote == "'" and self.next_char() == "'":
                 self.advance()
                 return 1
+            if self.next_char() == '\\':
+                self.advance()
         return 0
 
     # set the quote and unset the quote mode
@@ -115,7 +117,6 @@ class Lexer2(object):
         if self.char == self.quote:
             self.quote = None
             return 1
-        self.rule_backslash()
         return 0
 
     def get_next_token(self):
@@ -128,6 +129,9 @@ class Lexer2(object):
                 continue
             if self.rule_8():
                 continue
+
+            self.rule_backslash()
+
             if self.rule_11():
                 continue
 
