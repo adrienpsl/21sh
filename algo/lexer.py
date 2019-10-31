@@ -58,20 +58,6 @@ class Lexer2(object):
     def next_char(self):
         return self.text[0] if self.text else None
 
-    # delimit the token if current char == ' '
-    # skip all next ' ' in the string.
-    def rule_8(self):
-        self.add_token()
-
-    def rule_11(self):
-        if self.token.type != WORD:
-            self.add_token()
-        if self.token.type == WORD and self.char:
-            self.token.value += self.char
-        else:
-            self.token.type = WORD
-            self.token.value = self.char
-
     # if token == Operator && token.value + char == new token
     # that will also handle the \n
     def rule_2(self):
@@ -92,20 +78,38 @@ class Lexer2(object):
             return 1
         return 0
 
+    # delimit the token if current char == ' '
+    # skip all next ' ' in the string.
+    def rule_8(self):
+        if self.quote is None and self.char == " ":
+            self.add_token()
+            while self.next_char() == " ":
+                self.advance()
+            return 1
+        return 0
+
+    def rule_11(self):
+        if self.token.type != WORD:
+            self.add_token()
+        if self.token.type == WORD and self.char:
+            self.token.value += self.char
+        else:
+            self.token.type = WORD
+            self.token.value = self.char
 
     def rule_backslash(self):
         if self.quote is not None and self.char == "\\":
             if self.quote == '"' and self.next_char() == '"':
-                self.add_the_quote()
+                self.advance()
                 return 1
             if self.quote == "'" and self.next_char() == "'":
-                self.add_the_quote()
+                self.advance()
                 return 1
         return 0
 
     # set the quote and unset the quote mode
     def rule_4(self):
-        if self.char == "\"" or self.char == '\'':
+        if self.quote is None and (self.char == "\"" or self.char == '\''):
             self.quote = self.char
             return 1
         if self.char == self.quote:
@@ -122,8 +126,7 @@ class Lexer2(object):
                 continue
             if self.rule_4():
                 continue
-            if self.char == ' ':
-                self.rule_8()
+            if self.rule_8():
                 continue
             if self.rule_11():
                 continue
